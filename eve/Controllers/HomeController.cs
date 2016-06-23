@@ -20,7 +20,7 @@ namespace eve.Controllers
         private TelemetryClient telemetry = new TelemetryClient();
         public ActionResult Index(bool success = false)
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Evenotify";
 
             ViewBag.mask = false;
             ViewBag.character = false;
