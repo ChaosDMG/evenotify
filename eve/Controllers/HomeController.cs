@@ -153,7 +153,7 @@ namespace eve.Controllers
             System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(sendGridUser, sendGridPass);
             smtpClient.Credentials = credentials;
 
-            mailMsg.Body += "<a target='_blank' href='http://evenotify.org/Home/mail?id=" + verifyString + "'>verify email</a><br/><br/> Please ignore this email if you did not request it.";
+            mailMsg.Body += "<a target='_blank' href='http://evenotify.org/Home/mail?id=" + verifyString + "'>verify email</a> or go to this url: http://evenotify.org/Home/mail?id=" + verifyString + "<br/><br/> Please ignore this email if you did not request it.";
 
             mailMsg.IsBodyHtml = true;
             await smtpClient.SendMailAsync(mailMsg);
