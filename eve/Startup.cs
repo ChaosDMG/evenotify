@@ -104,8 +104,10 @@ namespace eve
 
                             try
                             {
-                                a.fails++;
-                                if(a.fails > 20)
+                                a.fails+=7;
+                                if (e.Message.CompareTo("not verified") == 0)
+                                    a.fails -= 6;
+                                    if (a.fails > 22)
                                 {
                                     db.Entry(a).State = System.Data.Entity.EntityState.Deleted;
 
