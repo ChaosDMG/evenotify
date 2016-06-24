@@ -144,7 +144,7 @@ namespace eve.Controllers
             mailMsg.To.Add(new MailAddress(email, email));
 
             // From
-            mailMsg.From = new MailAddress("eve@jannesvh.com", "eve notify");
+            mailMsg.From = new MailAddress("info@evenotify.org", "eve notify");
 
             mailMsg.Subject = "Verification email";
 
