@@ -94,7 +94,8 @@ namespace eve
                                 if (msgIDs != "")
                                     msgs(i, msgIDs, a.ApiId, a.ApiKey, a.Email, db.PrivateKeys.First(x=>x.Name == "sendGridUser").KeyVar, db.PrivateKeys.First(x => x.Name == "sendGridPass").KeyVar);
                             }
-
+                            if (a.fails > 0)
+                                a.fails--;
                             db.SaveChanges();
                         }
                         catch (Exception e)
