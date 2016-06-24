@@ -39,7 +39,7 @@ namespace eve
             mailList();
             
         }
-        private static void mailList()
+        private static async void mailList()
         {
             try
             {
@@ -92,7 +92,7 @@ namespace eve
                             else
                             {
                                 if (msgIDs != "")
-                                    msgs(i, msgIDs, a.ApiId, a.ApiKey, a.Email, db.PrivateKeys.First(x=>x.Name == "sendGridUser").KeyVar, db.PrivateKeys.First(x => x.Name == "sendGridPass").KeyVar);
+                                    msgs(i, msgIDs, a.ApiId, a.ApiKey, a.Email, db.PrivateKeys.First(x => x.Name == "sendGridUser").KeyVar, db.PrivateKeys.First(x => x.Name == "sendGridPass").KeyVar);
                             }
                             if (a.fails > 0)
                                 a.fails--;
@@ -105,14 +105,34 @@ namespace eve
 
                             try
                             {
-                                a.fails+=7;
+                                a.fails += 7;
                                 if (e.Message.CompareTo("not verified") == 0)
                                     a.fails -= 6;
-                                    if (a.fails > 22)
+                                if (a.fails > 22)
                                 {
-                                    db.Entry(a).State = System.Data.Entity.EntityState.Deleted;
+                                    if (e.Message.CompareTo("not verified") != 0)
+                                    {
+                                        //todo create 1 moethod for all mails
 
-                                    db.SaveChanges();
+                                        MailMessage mailMsg = new MailMessage();
+                                        mailMsg.Priority = MailPriority.High;
+                                        // To
+                                        mailMsg.To.Add(new MailAddress(a.Email, a.Email));
+
+                                        // From
+                                        mailMsg.From = new MailAddress("info@evenotify.org", "eve notify");
+
+                                        mailMsg.Subject = "evemail";
+                                        SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
+                                        System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(db.PrivateKeys.First(x => x.Name == "sendGridUser").KeyVar, db.PrivateKeys.First(x => x.Name == "sendGridPass").KeyVar);
+                                        smtpClient.Credentials = credentials;
+
+                                        mailMsg.Body += "Your API key was deleted for being invalid.  If you wish to still receive evemails as emails please register again.";
+                                        mailMsg.IsBodyHtml = true;
+                                        await smtpClient.SendMailAsync(mailMsg);
+
+                                    }
+                                    db.Entry(a).State = System.Data.Entity.EntityState.Deleted;
                                 }
                                 db.SaveChanges();
                             }
@@ -159,7 +179,7 @@ namespace eve
                 mailMsg.To.Add(new MailAddress(email, email));
 
                 // From
-                mailMsg.From = new MailAddress("eve@jannesvh.com", "eve notify");
+                mailMsg.From = new MailAddress("info@evenotify.org", "eve notify");
 
                 mailMsg.Subject = "evemail";
                 // Subject and multipart/alternative Body
