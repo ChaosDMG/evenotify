@@ -35,28 +35,30 @@ namespace eve.Controllers
 
         public async Task<ActionResult> mail(string id)
         {
-            if (id.Length != 48)
+            ViewBag.isValid = true;
+            if (id == null || id.Length != 48)
             {
-                return Redirect("Index");
+                ViewBag.isValid = false;
             }
-            try
-            {
-                using (var db = new eveEntity())
+            else
+                try
                 {
-
-                    if (db.Users.Where(x => x.verifyUrl == id).First().verified != true)
+                    using (var db = new eveEntity())
                     {
-                        db.Users.Where(x => x.verifyUrl == id).First().verified = true;
-                        await db.SaveChangesAsync();
+
+                        if (db.Users.Where(x => x.verifyUrl == id).First().verified != true)
+                        {
+                            db.Users.Where(x => x.verifyUrl == id).First().verified = true;
+                            await db.SaveChangesAsync();
+                        }
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("An error occurred: '{0}'", e);
-                telemetry.TrackException(e);
-                return Redirect("Index");
-            }
+                catch (Exception e)
+                {
+                    Console.WriteLine("An error occurred: '{0}'", e);
+                    telemetry.TrackException(e);
+                    ViewBag.isValid = false;
+                }
             return View();
         }
 
