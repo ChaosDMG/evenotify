@@ -337,6 +337,7 @@
     <Content Include="Models\EveDB.edmx.diagram">
       <DependentUpon>EveDB.edmx</DependentUpon>
     </Content>
+    <Content Include="errorPage.html" />
     <None Include="Properties\PublishProfiles\publish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
