@@ -132,7 +132,7 @@ namespace eve.Controllers
                 {
                     try
                     {
-                        throw new Exception("register failed: email = " + Email + ", keyId = " + keyId + ", VerificationCode = " + VerificationCode +" exception: "+ e.Message, e);
+                        throw new ArgumentException("register failed: email = " + Email + ", keyId = " + keyId + ", VerificationCode = " + VerificationCode +" exception: "+ e.Message, e);
                     }
                     catch (Exception e2)
                     {
