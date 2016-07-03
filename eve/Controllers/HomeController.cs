@@ -130,10 +130,18 @@ namespace eve.Controllers
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("An error occurred: '{0}'", e);
-                    telemetry.TrackException(e);
-                    ViewBag.invalid = true;
-                    return View();
+                    try
+                    {
+                        throw new Exception("register failed: email = " + Email + ", keyId = " + keyId + ", VerificationCode = " + VerificationCode +" exception: "+ e.Message, e);
+                    }
+                    catch (Exception e2)
+                    {
+                        Console.WriteLine("An error occurred: '{0}'", e);
+                        telemetry.TrackException(e2);
+                        ViewBag.invalid = true;
+                        return View();
+
+                    }
                 }
             }
             return View();
