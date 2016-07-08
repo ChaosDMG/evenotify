@@ -32,3 +32,4 @@ packages/*
 .vs/*
 eve/ApplicationInsights.config
 eve/Properties/PublishProfiles/publish.pubxml
+src/evenotify_v2/wwwroot/lib/*
