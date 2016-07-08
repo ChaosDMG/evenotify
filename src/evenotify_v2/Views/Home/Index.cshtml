@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Evenotify";
+}
+<br />
+@if (ViewBag.Success)
+{
+    <p class="text-info"><strong>Success!  Please verify your email address to start getting those mails!</strong></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-xs-12" itemscope itemtype="http://schema.org/SoftwareApplication">
+            <h1 itemprop="name" class="text-success">Evenotify</h1>
+            <h1>o/</h1>
+        </div>
+        <div class="col-xs-12">
+            <h2>Evemail to email</h2>
+        </div>
+
+        @using (Html.BeginForm("Index", "home", new { id = "Index" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="col-xs-12">
+                <b>API requirments</b>
+                <ul>
+                    <li>Character specific</li>
+                    <li>mailbodies and mailmessages permissions (and only those)</li>
+                </ul>
+            </div>
+            if (ViewBag.mask)
+            {
+                <p class="text-danger"><strong>Your API must have mailbodies and mailmessages permissions (and only those), please use the link below the key id input.</strong></p>
+            }
+            if (ViewBag.character)
+            {
+                <p class="text-danger"><strong>Your API must be character specific (all characters wont work)</strong></p>
+            }
+            if (ViewBag.invalid)
+            {
+                <p class="text-danger"><strong>Your API seems to be invalid.</strong></p>
+            }
+            if (ViewBag.exist)
+            {
+                <p class="text-danger"><strong>The user allready exist.  If you deleted the old API key please try again later.</strong></p>
+            }
+            if (ViewBag.email)
+            {
+                <p class="text-danger"><strong>Invalid email address.</strong></p>
+            }
+
+            <div class="col-xs-12 padding">
+                Key Id: <input class="form-control" name="KeyId" id="keyId" type="number" required /><div class="visible-xs hidden-lg">&nbsp;</div><a style="padding-top:5px; color:yellow;" target="_blank" href="https://community.eveonline.com/support/api-key/createpredefined?accessmask=2560">Create API with the correct permissions</a>
+            </div>
+
+            <div class="col-xs-12 padding">
+                Verification Code: <input class="form-control" name="VerificationCode" id="VerificationCode" required />
+            </div>
+            <div class="col-xs-12 padding">
+                Email: <input class="form-control" type="Email" name="email" id="email" required />
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3 padding" style="padding-top:30px">
+                <button class="form-control" type="submit">submit</button>
+            </div>
+        }
+    </div>
+}
