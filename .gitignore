@@ -36,3 +36,4 @@ src/evenotify_v2/wwwroot/lib/*
 src/evenotify_v2/Properties/PublishProfiles/publish.pubxml
 src/evenotify_v2/Properties/PublishProfiles/publish-module.psm1
 src/evenotify_v2/Properties/PublishProfiles/publish-publish.ps1
+src/evenotify_v2/appsettings.json
