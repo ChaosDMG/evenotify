@@ -35,6 +35,12 @@ namespace evenotify_v2
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
             Configuration = builder.Build();
+
+            timer = new Timer(600000);
+
+            timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+            timer.Enabled = true;
+            mailList();
         }
 
         private static void OnTimedEvent(object source, ElapsedEventArgs e)
@@ -254,12 +260,7 @@ namespace evenotify_v2
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-            
-            timer = new Timer(600000);
-
-            timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            timer.Enabled = true;
-            mailList();
+           
         }
     }
 }
