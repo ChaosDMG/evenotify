@@ -9,6 +9,10 @@ using System.Xml.Linq;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Net;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace evenotify_v2.Controllers
 {
@@ -16,7 +20,7 @@ namespace evenotify_v2.Controllers
     {
         private TelemetryClient telemetry = new TelemetryClient();
 
-        public IActionResult Index(bool success = false)
+        public IActionResult Index(bool success = false, bool recapcha = false)
         {
             ViewBag.Title = "Evenotify";
 
@@ -31,10 +35,10 @@ namespace evenotify_v2.Controllers
 
         }
 
-        public async Task<IActionResult> mail(string id)
+        public async Task<IActionResult> mail(Guid id)
         {
             ViewBag.isValid = true;
-            if (id == null || id.Length != 48)
+            if (id == null)
             {
                 ViewBag.isValid = false;
             }
@@ -62,10 +66,51 @@ namespace evenotify_v2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<IActionResult> Index(string keyId, string VerificationCode, string Email)
+        public async Task<IActionResult> Index(string keyId, string VerificationCode, string Email)
         {
+            string EncodedResponse = Request.Form["g-Recaptcha-Response"];
+            if (EncodedResponse == "")
+            {
+                ViewBag.recapcha = true;
+                return View();
+            }
             if (ModelState.IsValid && keyId != null && VerificationCode != null && Email != null)
             {
+                string URI = "";
+                try
+                {
+                    using (var db = new eve())
+                    {
+                       URI = "https://www.google.com/recaptcha/api/siteverify?secret=" + db.PrivateKeys.Where(x=>x.Name == "recapcha").First().KeyVar + "&response=" + EncodedResponse;
+
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("An error occurred: '{0}'", e);
+                    telemetry.TrackException(e);
+                    ViewBag.recapcha2 = true;
+                    return View();
+                }
+                var test = new HttpClient();
+
+                HttpResponseMessage response = await test.PostAsync(URI, new StringContent(""));
+                HttpContent contentR = response.Content;
+
+                // ... Read the string.
+                string result = await contentR.ReadAsStringAsync();
+
+
+                Recaptcha recapchaResult;
+
+                    recapchaResult = JsonConvert.DeserializeObject<Recaptcha>(result);
+                if (!recapchaResult.success)
+                {
+                    ViewBag.recapcha2 = true;
+                    return View();
+                }
+
                 try
                 {
                     ViewBag.mask = false;
@@ -106,8 +151,7 @@ namespace evenotify_v2.Controllers
                             ViewBag.exist = true;
                             return View();
                         }
-                        var verifyString = GetUniqueKey(48);
-                        db.Users.Add(new Users
+                        var user = new Users
                         {
                             ApiId = keyId,
                             character = chatId,
@@ -116,11 +160,12 @@ namespace evenotify_v2.Controllers
                             fails = 0,
                             HadFirst = false,
                             verified = false,
-                            verifyUrl = verifyString
-                        });
+                            verifyUrl = Guid.NewGuid()
+                        };
+                        db.Users.Add(user);
                         await db.SaveChangesAsync();
 
-                        await sendEmail(Email, verifyString, db.PrivateKeys.First(x => x.Name == "sendGridUser").KeyVar, db.PrivateKeys.First(x => x.Name == "sendGridPass").KeyVar);
+                        await sendEmail(Email, user.verifyUrl.ToString(), db.PrivateKeys.First(x => x.Name == "sendGridUser").KeyVar, db.PrivateKeys.First(x => x.Name == "sendGridPass").KeyVar);
                     }
 
                     ViewBag.success = true;
@@ -166,27 +211,7 @@ namespace evenotify_v2.Controllers
             mailMsg.IsBodyHtml = true;
             await smtpClient.SendMailAsync(mailMsg);
         }
-
-        public static string GetUniqueKey(int maxSize)
-        {
-            char[] chars = new char[62];
-            chars =
-            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
-            byte[] data = new byte[1];
-            using (RNGCryptoServiceProvider crypto = new RNGCryptoServiceProvider())
-            {
-                crypto.GetNonZeroBytes(data);
-                data = new byte[maxSize];
-                crypto.GetNonZeroBytes(data);
-            }
-            StringBuilder result = new StringBuilder(maxSize);
-            foreach (byte b in data)
-            {
-                result.Append(chars[b % (chars.Length)]);
-            }
-            return result.ToString();
-        }
-
+       
         bool IsValidEmail(string email)
         {
             try

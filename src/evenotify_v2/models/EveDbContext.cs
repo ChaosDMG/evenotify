@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace evenotify_v2.models
@@ -50,8 +50,8 @@ namespace evenotify_v2.models
 
         public bool verified { get; set; }
 
-        [MaxLength(50)]
-        public string verifyUrl { get; set; }
+
+        public Guid verifyUrl { get; set; }
 
         [MaxLength(50)]
         public string character { get; set; }
