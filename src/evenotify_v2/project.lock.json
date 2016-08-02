@@ -120,6 +120,34 @@
           "lib/net45/Microsoft.AI.PerfCounterCollector.dll": {}
         }
       },
+      "Microsoft.ApplicationInsights.Web/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.ApplicationInsights": "[2.1.0]",
+          "Microsoft.ApplicationInsights.WindowsServer": "2.1.0"
+        },
+        "compile": {
+          "lib/net45/Microsoft.AI.Web.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.AI.Web.dll": {}
+        }
+      },
+      "Microsoft.ApplicationInsights.WindowsServer/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.ApplicationInsights": "[2.1.0]",
+          "Microsoft.ApplicationInsights.DependencyCollector": "2.1.0",
+          "Microsoft.ApplicationInsights.PerfCounterCollector": "2.1.0",
+          "Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel": "[2.1.0]"
+        },
+        "compile": {
+          "lib/net45/Microsoft.AI.WindowsServer.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.AI.WindowsServer.dll": {}
+        }
+      },
       "Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel/2.1.0": {
         "type": "package",
         "dependencies": {
@@ -2476,6 +2504,46 @@
         "content/ApplicationInsights.config.uninstall.xdt",
         "lib/net40/Microsoft.AI.PerfCounterCollector.dll",
         "lib/net45/Microsoft.AI.PerfCounterCollector.dll"
+      ]
+    },
+    "Microsoft.ApplicationInsights.Web/2.1.0": {
+      "sha512": "lsuRmJxpIPmxTqCrBXWdzoEO39UDdgmB4OMeDZYd9pA2I4L9zO61oy2OpP28fzi3QLSq1rBITpAR3iyPtczzWA==",
+      "type": "package",
+      "path": "Microsoft.ApplicationInsights.Web/2.1.0",
+      "files": [
+        "Microsoft.ApplicationInsights.Web.2.1.0.nupkg.sha512",
+        "Microsoft.ApplicationInsights.Web.nuspec",
+        "content/net40/ApplicationInsights.config.install.xdt",
+        "content/net40/ApplicationInsights.config.transform",
+        "content/net40/ApplicationInsights.config.uninstall.xdt",
+        "content/net40/web.config.install.xdt",
+        "content/net40/web.config.uninstall.xdt",
+        "content/net45/ApplicationInsights.config.install.xdt",
+        "content/net45/ApplicationInsights.config.transform",
+        "content/net45/ApplicationInsights.config.uninstall.xdt",
+        "content/net45/web.config.install.xdt",
+        "content/net45/web.config.uninstall.xdt",
+        "lib/net40/Microsoft.AI.Web.XML",
+        "lib/net40/Microsoft.AI.Web.dll",
+        "lib/net45/Microsoft.AI.Web.XML",
+        "lib/net45/Microsoft.AI.Web.dll"
+      ]
+    },
+    "Microsoft.ApplicationInsights.WindowsServer/2.1.0": {
+      "sha512": "f4WnKf2kzQLqkqhHF0+HxQAZeK7EXEw9RwgyRtrRue/UMXlMKkRB8ViHmgbavRqr37/SpVfBH9gTwGfEl9gSwQ==",
+      "type": "package",
+      "path": "Microsoft.ApplicationInsights.WindowsServer/2.1.0",
+      "files": [
+        "Microsoft.ApplicationInsights.WindowsServer.2.1.0.nupkg.sha512",
+        "Microsoft.ApplicationInsights.WindowsServer.nuspec",
+        "Tools/install.ps1",
+        "content/ApplicationInsights.config.install.xdt",
+        "content/ApplicationInsights.config.transform",
+        "content/ApplicationInsights.config.uninstall.xdt",
+        "lib/net40/Microsoft.AI.WindowsServer.XML",
+        "lib/net40/Microsoft.AI.WindowsServer.dll",
+        "lib/net45/Microsoft.AI.WindowsServer.XML",
+        "lib/net45/Microsoft.AI.WindowsServer.dll"
       ]
     },
     "Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel/2.1.0": {
@@ -6707,6 +6775,7 @@
     "": [
       "BundlerMinifier.Core >= 2.1.258",
       "Microsoft.ApplicationInsights.AspNetCore >= 1.0.0",
+      "Microsoft.ApplicationInsights.Web >= 2.1.0",
       "Microsoft.AspNetCore.Diagnostics >= 1.0.0",
       "Microsoft.AspNetCore.Mvc >= 1.0.0",
       "Microsoft.AspNetCore.Razor.Tools >= 1.0.0-preview2-final",
