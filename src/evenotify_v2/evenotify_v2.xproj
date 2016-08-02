@@ -14,6 +14,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
+    <ApplicationInsightsResourceId>/subscriptions/0ec52363-b3d0-4e95-ba38-af3bb54c4f91/resourcegroups/Default-Storage-WestEurope/providers/microsoft.insights/components/eve</ApplicationInsightsResourceId>
   </PropertyGroup>
   <ItemGroup>
     <DnxInvisibleContent Include="bower.json" />
