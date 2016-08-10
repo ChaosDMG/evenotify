@@ -7,7 +7,6 @@ namespace evenotify_v2.models
 {
     public class apiCheck
     {
-
         /// <remarks/>
         [System.SerializableAttribute()]
         [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -110,7 +109,7 @@ namespace evenotify_v2.models
 
             private eveapiResultKeyRowset rowsetField;
 
-            private uint accessMaskField;
+            private ushort accessMaskField;
 
             private string typeField;
 
@@ -131,7 +130,7 @@ namespace evenotify_v2.models
 
             /// <remarks/>
             [System.Xml.Serialization.XmlAttributeAttribute()]
-            public uint accessMask
+            public ushort accessMask
             {
                 get
                 {
@@ -259,7 +258,7 @@ namespace evenotify_v2.models
 
             private string corporationNameField;
 
-            private byte allianceIDField;
+            private uint allianceIDField;
 
             private string allianceNameField;
 
@@ -325,7 +324,7 @@ namespace evenotify_v2.models
 
             /// <remarks/>
             [System.Xml.Serialization.XmlAttributeAttribute()]
-            public byte allianceID
+            public uint allianceID
             {
                 get
                 {
@@ -379,7 +378,6 @@ namespace evenotify_v2.models
                 }
             }
         }
-
 
 
     }
