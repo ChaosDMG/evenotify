@@ -18,6 +18,10 @@ namespace evenotify_v2
 {
     public class Startup
     {
+        public static string recapcha;
+        public static string sendGridPass;
+        public static string sendGridUser;
+
         private static Timer timer;
         private static int throttleCounter = 0;
         private static TelemetryClient telemetry = new TelemetryClient();
@@ -103,7 +107,7 @@ namespace evenotify_v2
                             else
                             {
                                 if (msgIDs != "")
-                                    msgs(i, msgIDs, a.ApiId, a.ApiKey, a.Email, db.PrivateKeys.First(x => x.Name == "sendGridUser").KeyVar, db.PrivateKeys.First(x => x.Name == "sendGridPass").KeyVar);
+                                    msgs(i, msgIDs, a.ApiId, a.ApiKey, a.Email, Startup.sendGridUser, Startup.sendGridPass);
                             }
                             if (a.fails > 0)
                                 a.fails--;
@@ -135,7 +139,7 @@ namespace evenotify_v2
 
                                         mailMsg.Subject = "evemail";
                                         SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
-                                        System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(db.PrivateKeys.First(x => x.Name == "sendGridUser").KeyVar, db.PrivateKeys.First(x => x.Name == "sendGridPass").KeyVar);
+                                        System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(Startup.sendGridUser, Startup.sendGridPass);
                                         smtpClient.Credentials = credentials;
 
                                         mailMsg.Body += "Your API key was deleted for being invalid.  If you wish to still receive evemails as emails please register again.";
@@ -226,6 +230,10 @@ namespace evenotify_v2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            recapcha = Configuration["Data:recapcha"];
+            sendGridPass = Configuration["Data:sendGridPass"];
+            sendGridUser = Configuration["Data:sendGridUser"];
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 

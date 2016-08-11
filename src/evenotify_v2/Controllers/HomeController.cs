@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.ApplicationInsights;
 using evenotify_v2.models;
 using System.Xml.Linq;
+using Microsoft.Extensions.Configuration;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
@@ -81,7 +82,7 @@ namespace evenotify_v2.Controllers
                 {
                     using (var db = new eve())
                     {
-                       URI = "https://www.google.com/recaptcha/api/siteverify?secret=" + db.PrivateKeys.Where(x=>x.Name == "recapcha").First().KeyVar + "&response=" + EncodedResponse;
+                       URI = "https://www.google.com/recaptcha/api/siteverify?secret=" + Startup.recapcha + "&response=" + EncodedResponse;
 
 
                     }
@@ -165,7 +166,7 @@ namespace evenotify_v2.Controllers
                         db.Users.Add(user);
                         await db.SaveChangesAsync();
 
-                        await sendEmail(Email, user.verifyUrl.ToString(), db.PrivateKeys.First(x => x.Name == "sendGridUser").KeyVar, db.PrivateKeys.First(x => x.Name == "sendGridPass").KeyVar);
+                        await sendEmail(Email, user.verifyUrl.ToString(), Startup.sendGridUser, Startup.sendGridPass);
                     }
 
                     ViewBag.success = true;

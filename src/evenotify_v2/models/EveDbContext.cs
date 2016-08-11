@@ -7,7 +7,6 @@ namespace evenotify_v2.models
     public class eve : DbContext
     {
         public DbSet<MsgIds> MsgIds { get; set; }
-        public DbSet<PrivateKeys> PrivateKeys { get; set; }
         public DbSet<Users> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -21,16 +20,6 @@ namespace evenotify_v2.models
         [Key]
         [MaxLength(50)]
         public string Id { get; set; }
-    }
-
-    public class PrivateKeys
-    {
-        [Key]
-        [MaxLength(50)]
-        public string Name { get; set; }
-
-        [MaxLength(100)]
-        public string KeyVar { get; set; }
     }
 
     public class Users
