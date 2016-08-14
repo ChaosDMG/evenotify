@@ -107,7 +107,10 @@ namespace evenotify_v2
                             else
                             {
                                 if (msgIDs != "")
+                                {
                                     msgs(i, msgIDs, a.ApiId, a.ApiKey, a.Email, Startup.sendGridUser, Startup.sendGridPass);
+                                    a.SendCount++;
+                                }
                             }
                             if (a.fails > 0)
                                 a.fails--;

@@ -44,5 +44,7 @@ namespace evenotify_v2.models
 
         [MaxLength(50)]
         public string character { get; set; }
+
+        public int SendCount { get; set; } = 0;
     }
 }
