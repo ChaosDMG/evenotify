@@ -267,8 +267,12 @@ namespace evenotify_v2
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapRoute(
+                "Robots.txt",
+                "robots.txt",
+                new { controller = "Home", action = "Robots" });
             });
-           
+
         }
     }
 }

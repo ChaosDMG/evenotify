@@ -225,7 +225,11 @@ namespace evenotify_v2.Controllers
                 return false;
             }
         }
+        public ActionResult Robots()
+        {
+            Response.ContentType = "text/plain";
+            return View();
+        }
 
-       
     }
 }
